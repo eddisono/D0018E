@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $username = "phpmyadmin";
-$password = "rodLadaGarFort";
+$password = "";
 $db_name = "Sodas";
 
 // Create connection
