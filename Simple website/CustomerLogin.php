@@ -14,11 +14,8 @@ session_start();
 
         <form method="post" action="loginBackend.php">
             Enter your ID : <input type="text" name="UserID"><br><br>
-            Enter your Password : <input type="text" name="Password"><br><br>
             <input type="submit" name="submit" if="submit" value="Submit">
         </form>
 
     </body>
 </html>
-
-

@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $username = "phpmyadmin";
-$password = "";     // Add your own password here
+$password = "rodLadaGarFort";
 $db_name = "Sodas";
 
 // Create connection
@@ -12,8 +12,6 @@ if (!$con){
     die("Connection failed! " . mysqli_connect_error());
 }
 else{
-    echo "Connection successful! 
-    
-    ";
+    //echo "Connection successful! ";
 }
 ?>
