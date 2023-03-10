@@ -59,26 +59,25 @@ if ($result->num_rows > 0) {
     $totsum = $row["Price"];
     echo"<br> TOTAL: " . $totsum . "";
 } else {
-    echo "0 results";
+    echo "0 results <br><br>";
 }
 mysqli_close($con);
 
  
-if(isset($_POST['button1'])) {
-    include 'openconnection.php';
-    $sql = "UPDATE Orders SET Sent = '1', Price = $totsum WHERE IDCustomer = '$Uid' AND Sent = '0'";
-    $rs = mysqli_query($con, $sql);
-    mysqli_close($con);
-    header('Location: ./CustomerShoppingCart.php');
-}
+//if(isset($_POST['button1'])) {
+//    include 'openconnection.php';
+//    $sql = "UPDATE Orders SET Sent = '1', Price = $totsum WHERE IDCustomer = '$Uid' AND Sent = '0'";
+//    $rs = mysqli_query($con, $sql);
+//    mysqli_close($con);
+//    header('Location: ./CustomerShoppingCart.php');
+//}
 
 
 //header('Location: .inventory.php');
 ?>
-
-<form method="post">
+<form method="post" action="checkout.php">
         <input type="submit" name="button1"
-                value="Purchase"/>
+                value="Checkout"/>
 </form>
 
 <?php mysqli_close($con)?>

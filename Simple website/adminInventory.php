@@ -24,6 +24,7 @@ if ($result->num_rows > 0) {
     <th>Delete Soda</th>
     <th>Add Soda</th>
     <th>Decrease Soda</th>
+    <th>Change Price and Quantity</th>
     <th>View Reviews</th></tr>";
     // output data of each row
     while($row = $result->fetch_assoc()) {
@@ -34,6 +35,7 @@ if ($result->num_rows > 0) {
         	<td><a href='deleteSoda.php?id=".$row['SodaName']."'>Delete</a>
         	<td><a href='addSoda.php?id=".$row['SodaName']."'>+</a></td>
         	<td><a href='decreaseSoda.php?id=".$row['SodaName']."'>-</a></td>
+            <td><a href='AdminSetPrice.php?id=".$row['SodaName']."'>Set price and Quantity</a></td>
             <td><a href='viewReview.php?id=" . $row['SodaName']."'>View</a></tr>";
     }
     echo "</table>";

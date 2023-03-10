@@ -26,6 +26,59 @@ if(isset($_POST['submitSoda'])){
     
 }
 
+if(isset($_POST['setNewPrice'])){
+    $sodaName = $_POST['sodaname'];
+    $sodaprice = $_POST['price'];
+    $sodaquantity = $_POST['quantity'];
+
+    mysqli_begin_transaction($con);
+    $insertSoda = "UPDATE Sodas SET Price = '$sodaprice', Quantity = '$sodaquantity' WHERE SodaName = '$sodaName'";
+
+    $rs = mysqli_query($con, $insertSoda);
+    if($rs){
+        echo "Entries added!";
+    }
+    else{
+        echo "Entry unsuccessful!";
+    }
+
+
+
+    //SET PRICE IN ORDER
+    $sql = "SELECT IDOrder FROM Orders WHERE Sent = '0' ";
+    $result = mysqli_query($con, $sql);
+    echo"<br>Fetching IDORder";
+    $data = array();
+        while($line = mysqli_fetch_assoc($result)){
+            $data[] = $line;
+        }
+        foreach ($data as $line){
+            echo"<br>IN LOOP";
+            $IDOrder = $line["IDOrder"];
+            $sql = "SELECT ShoppingCart.IDOrder, ShoppingCart.SodaName, ShoppingCart.Quantity, Sodas.Price FROM ShoppingCart INNER JOIN Sodas ON ShoppingCart.SodaName =Sodas.SodaName WHERE IDOrder = $IDOrder";
+            $rs = mysqli_query($con, $sql);
+            $totPrice = 0;
+            echo" <br>setting price";
+            while($row = $rs->fetch_assoc()) {
+                $totPrice = $totPrice + $row["Quantity"] * $row["Price"];
+            }
+            $sql = "UPDATE Orders SET Price = $totPrice WHERE IDOrder = $IDOrder";
+            $rs = mysqli_query($con, $sql);
+        }
+    
+    
+
+
+    mysqli_commit($con);
+    mysqli_close($con);
+
+    
+    if($_SESSION["TYPE"] == 'Admin'){ header('Location: ./adminInventory.php');}
+    elseif($_SESSION["TYPE"] == 'Employee'){ header('Location: ./employeeInventory.php');}
+    else {echo" ERROR!";}
+    
+}
+
 
 if(isset($_POST['submitUser'])){
     $FirstName = $_POST['firstName'];
@@ -87,6 +140,35 @@ if(isset($_POST['submitChangedUser'])){
         echo "User Update failed!";
     }
 }
+
+
+if(isset($_POST['submitChangedUserCheckout'])){
+    echo"found SubmitChangedUser <br>";
+    $Billing = $_POST['userAddress'];
+    $mail = $_POST['userEmail'];
+    $number = $_POST['phoneNumber'];
+
+    $Uid = $_SESSION["UID"];
+    echo $Uid ;
+    //$sql = "UPDATE Customers SET 'FirstName' = '$FirstName', 'LastName' = '$LastName', 'BillingAddress' = '$Billing', 'Email' = '$mail', 'PhoneNumber' = '$number', 'Password' = '$Password' WHERE IDCustomer = '$Uid'";
+    //$sql = "UPDATE Customers SET 'FirstName' = $FirstName, 'LastName' = $LastName, WHERE IDCustomer = $Uid";
+    $sql = "UPDATE Customers SET BillingAddress = '$Billing', Email = '$mail', PhoneNumber = '$number' WHERE IDCustomer = $Uid;";
+    $result = mysqli_query($con, $sql);
+    echo $result;
+    echo"preformed update <br>";
+    if($result){
+        echo "User Changed! ";
+        mysqli_close($con);
+        header('Location: ./checkout.php');
+        
+    }
+    else{
+        mysqli_close($con);
+        echo "User Update failed!";
+    }
+}
+
+
 
 if(isset($_POST['submitEmployee'])){
     $FirstName = $_POST['firstName'];

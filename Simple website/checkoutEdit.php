@@ -43,38 +43,11 @@ if ($result->num_rows > 0) {
 
 ?>
 <form method="post" action="insert.php">
-First Name : <input type="text" name="firstName" required><br><br>
-    Last Name : <input type="text" name="lastName" required><br><br>
     Billing Address : <input type="text" name="userAddress" required><br><br>
 	Email : <input type="text" name="userEmail" required><br><br>
 	Phone Number : <input type="text" name="phoneNumber" required><br><br>
-    Password : <input type="text" name="Password" required><br><br>
-    <input type="submit" name="submitChangedUser" value="Submit">
+    <input type="submit" name="submitChangedUserCheckout" value="Submit">
 </form>
-
-<?php
-$sql = "SELECT IDReview, SodaName, Text, Date FROM Reviews WHERE IDCustomer = '$Uid' ORDER BY Date DESC";
-        $result = mysqli_query($con, $sql);
-
-        $data = array();
-        while($row = mysqli_fetch_assoc($result)){
-            $data[] = $row;
-        }
-        echo"<br>YOUR REVIEWS: <br>";
-        echo "<table><tr>
-            <th>SodaName</th>
-            <th>Review Text</th>
-            <th>Date</th>
-            <th>Delete Review</th></tr>";
-        foreach ($data as $row){
-            echo "<tr>
-            <td>" . $row["SodaName"]. "</td>
-            <td>" . $row["Text"]. "</td>
-            <td>" . $row["Date"]. "</td>
-            <td><a href='deleteReview.php?id=".$row['IDReview']."'>Delete</a></td></tr>";
-        }
-        echo "</table>";
-?>
 
 <?php mysqli_close($con)?>
 </body>

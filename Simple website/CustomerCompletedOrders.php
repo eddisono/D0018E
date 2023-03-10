@@ -7,35 +7,30 @@
     </head>
     
     <body>
-	<?php 
-
-    if($_SESSION["TYPE"] == 'Admin'){ include 'menu.php';}
-    elseif($_SESSION["TYPE"] == 'Employee'){ include 'employeeMenu.php';}
-    elseif($_SESSION["TYPE"] == 'Customer'){ include 'customerMenu.php';}
-    else {echo"Uid ERROR!";}
-    ?>
+	<?php include 'customerMenu.php';?>
 
 
 <?php include 'openconnection.php';?>
 <?php
-
-
-
-$IDOrder = $_GET['id'];
-echo"<br>ORDER ID: ". $IDOrder ."<br>";
-
-$sql = "SELECT * FROM ShoppingCart WHERE IDOrder = $IDOrder";
+$Uid = $_SESSION["UID"];
+$sql = "SELECT * FROM Orders WHERE IDCustomer = $Uid AND Sent = '1'";
 $result = mysqli_query($con, $sql);
 
 if ($result->num_rows > 0) {
     echo "<table><tr>
-    <th>Soda Name</th>
-	<th>Quantity</th></tr>";
+    <th>Customer ID</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+	<th>Order ID</th>
+    <th>Sent or not</th>
+    <th>Detailed view</th>
+    <th>Delete</th></tr>";
     // output data of each row
     while($row = $result->fetch_assoc()) {
         echo "<tr>
-		<td>" . $row["SodaName"]. "</td>
-		<td>" . $row["Quantity"]. "</td></tr>";
+		<td>" . $row["IDOrder"]. "</td>
+        <td><a href='adminViewSpecificOrder.php?id=".$row['IDOrder']."'>View</a></td>
+        </tr>";
     }
     echo "</table>";
 } else {
